@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 # Set the Pico SDK path (update it with your own path)
 set(PICO_SDK_PATH $ENV{PICO_SDK_PATH})
-set(FREERTOS_KERNEL_PATH $ENV{FREERTOS_KERNEL_PATH})
+set(FREERTOS_KERNEL_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../lib/FreeRTOS-KernelV10.6.2)
 
 # Set the Pico board
 set(PICO_BOARD pico_w)
