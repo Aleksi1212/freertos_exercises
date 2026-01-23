@@ -42,7 +42,7 @@ void button_read_task(void *param)
             assert(resp == pdPASS);
         }
         prev_state = curr_state;
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 void button_process_task(void *param)
@@ -58,38 +58,36 @@ void button_process_task(void *param)
     while (true) {
         gpio_put(lock->led_pin, open);
         if (open) {
-            vTaskDelay(pdMS_TO_TICKS(lock->delay));
+            if (xQueueReceive(lock->q, &val, pdMS_TO_TICKS(lock->delay)) == pdPASS
+                && (val == SW_0 || val == SW_1 || val == SW_2)) {
+                    val = 0;
+                }
             open = false;
-            continue;
         }
-        if (idx <= 4 && xQueueReceive(lock->q, &val, pdMS_TO_TICKS(lock->delay)) == pdPASS) {
-            switch (idx)
+        else if (idx <= 4 && xQueueReceive(lock->q, &val, pdMS_TO_TICKS(lock->delay)) == pdPASS) {
+            switch (idx++)
             {
             case 0:
-                if (val != SW_0)
-                { idx = 0; continue; }
+                if (val != SW_0) idx = 0;
                 break;
             case 1:
-                if (val != SW_0)
-                { idx = 0; continue; }
+                if (val != SW_0) idx = 0;
                 break;
             case 2:
-                if (val != SW_2)
-                { idx = 0; continue; }
+                if (val != SW_2) idx = 0;
                 break;
             case 3:
-                if (val != SW_1)
-                { idx = 0; continue; }
+                if (val != SW_1) idx = 0;
                 break;
             case 4:
+                if (val == SW_2) open = true;
                 idx = 0;
-                if (val != SW_2) continue;
-                else open = true;
+                val = 0;
                 break;
             default:
+                idx = 0;
                 break;
             }
-            idx++;
         }
     }
 }
