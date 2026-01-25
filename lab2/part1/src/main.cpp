@@ -53,7 +53,7 @@ int main(void) {
     static SemaphoreHandle_t smph = xSemaphoreCreateBinary();
     xSemaphoreGive(smph);
 
-    led_t blinker_led = { .pin = 21, .delay_ms = 100, .s = smph };
+    static led_t blinker_led = { .pin = 21, .delay_ms = 100, .s = smph };
 
     xTaskCreate(read_char_task, "READ", 512, smph, tskIDLE_PRIORITY + 2, NULL);
     xTaskCreate(blink_task, "BLINK", 512, &blinker_led, tskIDLE_PRIORITY + 1, NULL);
