@@ -23,7 +23,7 @@ void read_char_task(void *param)
 
     while (true) {
         if (int c = getchar_timeout_us(0); c != PICO_ERROR_TIMEOUT) {
-            printf("%c", c);
+            putchar(c);
             xSemaphoreGive(smph);
         }
         vTaskDelay(pdMS_TO_TICKS(10));
