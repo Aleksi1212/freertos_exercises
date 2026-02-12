@@ -35,8 +35,7 @@ pico_sdk_init()
 file(GLOB SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}../debug.cpp"
-
+    "${CMAKE_CURRENT_SOURCE_DIR}/../debug.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -44,6 +43,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 # Add include directories
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/../
 
     # additional include directories:
     # ${CMAKE_SOURCE_DIR}/dir_name

@@ -4,16 +4,10 @@
 #include <cstdint>
 #include "FreeRTOS.h"
 #include "queue.h"
+#include "task.h"
 #include <iostream>
 #include <time.h>
-#include "hardware/rtc.h"
-#include "pico/stdlib.h"
 
-struct debug_event_t {
-    const char *fmt;
-    time_t timestamp;
-    uint32_t data[3];
-};
 
 class Debug {
 private:

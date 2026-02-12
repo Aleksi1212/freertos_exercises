@@ -1,9 +1,13 @@
 #include "debug.h"
 
+struct debug_event_t {
+    const char *fmt;
+    time_t timestamp;
+    uint32_t data[3];
+};
+
 Debug::Debug()
 { 
-    rtc_init();
-
     q = xQueueCreate(10, sizeof(debug_event_t));
     xTaskCreate(Debug::task, "DEBUG", 512, static_cast<void *>(this), tskIDLE_PRIORITY + 1, NULL);
 }
@@ -14,7 +18,7 @@ void Debug::print(const char *format, uint32_t d1, uint32_t d2, uint32_t d3)
         .timestamp = time(NULL), 
         .data = { d1, d2, d3 } 
     };
-    xQueueSendToBack(q, &e, 0);
+    xQueueSendToBack(q, &e, pdMS_TO_TICKS(10));
 }
 
 void Debug::task(void *param)
