@@ -55,7 +55,6 @@ target_link_libraries(${PROJECT_NAME}
     pico_stdlib
     hardware_pwm
     hardware_gpio
-    hardware_rtc
     FreeRTOS-Kernel-Heap4
     # additional Pico SDK libraries
 )
